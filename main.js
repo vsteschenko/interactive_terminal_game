@@ -5,32 +5,41 @@ const fieldCharacter = '░';
 const pathCharacter = '*';
 
 class Field {
-    constructor(arr) {
-        this.field = arr;
+    constructor() {
+        this.yHat = Math.floor(Math.random() * 6);
+        this.xHat = Math.floor(Math.random() * 3);
+        this.field = this.generateField();
     }
     print() {
         for (let i = 0; i < myField.field.length; i++) {
             console.log(myField.field[i].join())
         };
     }
+    generateField() {
+        let field = [];
+        for (let i = 0; i <= 5; i++) {
+            let line = [];
+            for (let  x = 0; x <= 2; x++) {
+                let p = 0.3;
+                let probability = Math.random() + 0.13;
+                if(p >  probability) {
+                    line.push(hole)
+                } else {
+                    line.push(fieldCharacter)
+                }
+            }
+            field.push(line)
+        }
+        field[this.yHat][this.xHat] = hat;
+        return field
+    }
 };
 
-const myField = new Field([
-    ['*', '░', 'O'],
-    ['░', 'O', '░'],
-    ['░', 'O', '░'],
-    ['░', '^', '░'],
-    ['░', '░', '░'],
-    ['░', 'O', '░'],
-    ['░', '░', '░'],
-    ['░', '░', '░'],
-]);
+const myField = new Field()
 
 let y = 0;
 let x = 0;
 let position = myField.field[y][x];
-
-let name;
 
 //function to move down
 const moveDown = () => {
@@ -91,7 +100,8 @@ const cannotGo = () => {
     console.log("You can't  go there")
 }
 
-while (position != myField.field[3][1] ){
+myField.print();
+while (position != myField.field[myField.yHat][myField.xHat] ){
     let name = prompt("Which direction would you like to move?");
     if (name == 's'){
         moveDown();
