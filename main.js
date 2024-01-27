@@ -21,7 +21,7 @@ const myField = new Field([
     ['░', 'O', '░'],
     ['░', '^', '░'],
     ['░', '░', '░'],
-    ['░', '░', '░'],
+    ['░', 'O', '░'],
     ['░', '░', '░'],
     ['░', '░', '░'],
 ]);
@@ -34,32 +34,64 @@ let name;
 
 //function to move down
 const moveDown = () => {
-    y++;
-    myField.field[y][x] = pathCharacter;
-    myField.print();
+    if (y + 1 < myField.field.length && myField.field[y + 1][x] === hole) {
+        fallInHole();
+    } else if (y + 1 < myField.field.length){
+        y++;
+        myField.field[y][x] = pathCharacter;
+        myField.print();
+    } else {
+        cannotGo()
+    }
 };
 
 const moveUp = () => {
-    myField.field[y][x] = fieldCharacter;
-    y--;
-    myField.field[y][x] = pathCharacter;
-    myField.print();
+    if (y - 1 >= 0 && myField.field[y-1][x] == hole){
+        fallInHole()
+    } else if(y - 1 >= 0){
+        myField.field[y][x] = fieldCharacter;
+        y--;
+        myField.field[y][x] = pathCharacter;
+        myField.print();
+    } else {
+        cannotGo()
+    }
 };
 
 const moveRight = () => {
-    x++;
-    myField.field[y][x] = pathCharacter;
-    myField.print();
+    if (myField.field[y][x + 1] === hole) {
+        fallInHole();
+    } else if (x + 1 < myField.field[y].length){
+        x++;
+        myField.field[y][x] = pathCharacter;
+        myField.print();
+    } else  {
+        cannotGo()
+    }
 };
 
 const moveLeft = () => {
-    myField.field[y][x] = fieldCharacter;
-    x--;
-    myField.field[y][x] = pathCharacter;
-    myField.print();
+    if (x - 1 >= 0 && myField.field[y][x - 1] === hole) {
+        fallInHole();
+    } else if (x - 1  >= 0) {
+        //myField.field[y][x] = fieldCharacter;
+        myField.field[y][x] = fieldCharacter;
+        myField.print();
+        x--;
+        myField.field[y][x] = pathCharacter;
+    } else {
+        cannotGo()
+    }
 };
 
-while (position != myField.field[3][1]){
+const fallInHole = () => {
+    console.log("Oh no! You stepped into a mysterious vortex and got caught in a time warp. 🌀 Time is playing tricks on you, but don't worry, you'll find your way out eventually!");
+}
+const cannotGo = () => {
+    console.log("You can't  go there")
+}
+
+while (position != myField.field[3][1] ){
     let name = prompt("Which direction would you like to move?");
     if (name == 's'){
         moveDown();
@@ -70,4 +102,6 @@ while (position != myField.field[3][1]){
     } else if (name == 'a'){
         moveLeft();
     }
+    position = myField.field[y][x]
 };
+console.log("CONGRATULATIONS!!! <3")
